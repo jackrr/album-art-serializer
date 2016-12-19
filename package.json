@@ -1,0 +1,17 @@
+{
+  "name": "album-art-arduino",
+  "version": "0.0.0",
+  "description": "",
+  "main": "run.js",
+  "scripts": {
+    "start": "node run.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lwip": "0.0.9",
+    "request": "^2.79.0",
+    "serialport": "^4.0.7"
+  }
+}
