@@ -1,7 +1,7 @@
-let lastfm = require('./lib/lastfm');
-let image = require('./lib/image');
-let config = require('./config');
-let serial = require('./lib/serial');
+var lastfm = require('./lib/lastfm');
+var image = require('./lib/image');
+var config = require('./config');
+var serial = require('./lib/serial');
 
 var userID = config.userID
 var artworkFolder = config.artworkPath
