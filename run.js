@@ -1,34 +1,23 @@
-let lastfm = require('./lib/lastfm');
-let image = require('./lib/image');
-let config = require('./config');
-let serial = require('./lib/serial');
+const { onSongChange } = require('./lib/lastfm')
+const { getPixelGrid } = require('./lib/image')
+const { sendImage } = require('./lib/serial')
 
-var userID = config.userID
-var artworkFolder = config.artworkPath
-
-
-var nextSong = function(err, song){
+const nextSong = function(err, song) {
   if (err) {
-    return console.log("error getting current song:", err)
+    return console.log("Error getting current song:", err)
   }
 
-  console.log('Track:', song.name, '\nAlbum: ', song.album, '\nArtist:', song.artist);
+  console.log(`Track: ${song.name}\nAlbum: ${song.album}\nArtist:${song.artist}`)
 
   if (!song.albumUrl || !song.albumUrl.length) {
-    return console.log("no albumUrl given for song", song.name)
+    return console.log('(No album url given)')
   }
 
-  var url = song.albumUrl
-  var fname = Date.now().toString()+'.'+url[url.length-3] + url[url.length-2] + url[url.length-1]
-
-  var albumPath = artworkFolder + fname
-  image.getPixelGrid(song.albumUrl, function(err, grid){
-    if (err) {
-      console.log(err)
-    } else {
-      serial.sendImage(grid);
-    }
-  }, {tile: true})
+  getPixelGrid(song.albumUrl)
+    .then(sendImage)
+    .catch((err) => {
+      console.log("Failed to process image:", err)
+    })
 }
 
-lastfm.onSongChange(userID, nextSong)
+onSongChange(nextSong)
